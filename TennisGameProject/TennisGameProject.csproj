@@ -52,6 +52,12 @@
     <Compile Include="NewGameForm.Designer.cs">
       <DependentUpon>NewGameForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlayerInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlayerInfoForm.Designer.cs">
+      <DependentUpon>PlayerInfoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ScoreForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,6 +68,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="NewGameForm.resx">
       <DependentUpon>NewGameForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlayerInfoForm.resx">
+      <DependentUpon>PlayerInfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ScoreForm.resx">
       <DependentUpon>ScoreForm.cs</DependentUpon>

@@ -98,7 +98,7 @@
             // 
             // latestGamesTable
             // 
-            this.latestGamesTable.BackColor = System.Drawing.Color.Red;
+            this.latestGamesTable.BackColor = System.Drawing.Color.DarkSalmon;
             this.latestGamesTable.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
@@ -134,7 +134,7 @@
             // 
             // rankingTable
             // 
-            this.rankingTable.BackColor = System.Drawing.Color.Red;
+            this.rankingTable.BackColor = System.Drawing.Color.DarkSalmon;
             this.rankingTable.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader5,
             this.columnHeader8});

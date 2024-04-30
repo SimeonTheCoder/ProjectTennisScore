@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TennisGameProject
 {
@@ -36,12 +37,10 @@ namespace TennisGameProject
 
                 string winnerName = firstPlayerScore > secondPlayerScore ? firstPlayerName : secondPlayerName;
 
-                int winningScore = Math.Max(firstPlayerScore, secondPlayerScore);
-
                 latestGamesView.SubItems[0].Text = firstPlayerName;
                 latestGamesView.SubItems.Add(secondPlayerName);
-                latestGamesView.SubItems.Add(winnerName);
-                latestGamesView.SubItems.Add(winningScore.ToString());
+                latestGamesView.SubItems.Add(firstPlayerScore != secondPlayerScore ? winnerName : "Draw");
+                latestGamesView.SubItems.Add($"{firstPlayerScore} - {secondPlayerScore}");
 
                 latestGamesTable.Items.Add(latestGamesView);
             }   
@@ -64,6 +63,65 @@ namespace TennisGameProject
                    });
         }
 
+        public (Dictionary<string, string> wins, Dictionary<string, string> losses, Dictionary<string, string> draws) LoadPlayerData(string playerName)
+        {
+            Dictionary<string, string> wins = new Dictionary<string, string>();
+            Dictionary<string, string> losses = new Dictionary<string, string>();
+            Dictionary<string, string> draws = new Dictionary<string, string>();
+
+            games.Where(game => game.Key.Item1 == playerName)
+                .Where(game => game.Key.Item2 > game.Value.Item2)
+                .ToList()
+                .ForEach(game =>
+                {
+                    wins.Add(game.Value.Item1, $"{game.Key.Item2} - {game.Value.Item2}");
+                });
+
+            games.Where(game => game.Key.Item1 == playerName)
+                .Where(game => game.Key.Item2 < game.Value.Item2)
+                .ToList()
+                .ForEach(game =>
+                {
+                    losses.Add(game.Value.Item1, $"{game.Key.Item2} - {game.Value.Item2}");
+                });
+
+            games.Where(game => game.Key.Item1 == playerName)
+                .Where(game => game.Key.Item2 == game.Value.Item2)
+                .ToList()
+                .ForEach(game =>
+                {
+                    draws.Add(game.Value.Item1, $"{game.Key.Item2} - {game.Value.Item2}");
+                });
+
+            // If second player is the victor
+
+            games.Where(game => game.Value.Item1 == playerName)
+                .Where(game => game.Value.Item2 > game.Key.Item2)
+                .ToList()
+                .ForEach(game =>
+                {
+                    wins.Add(game.Key.Item1, $"{game.Key.Item2} - {game.Value.Item2}");
+                });
+
+            games.Where(game => game.Value.Item1 == playerName)
+                .Where(game => game.Value.Item2 < game.Key.Item2)
+                .ToList()
+                .ForEach(game =>
+                {
+                    losses.Add(game.Key.Item1, $"{game.Key.Item2} - {game.Value.Item2}");
+                });
+
+            games.Where(game => game.Value.Item1 == playerName)
+                .Where(game => game.Value.Item2 == game.Key.Item2)
+                .ToList()
+                .ForEach(game =>
+                {
+                    draws.Add(game.Key.Item1, $"{game.Key.Item2} - {game.Value.Item2}");
+                });
+
+            return (wins, losses, draws);
+        }
+
         private void addNewGameButton_Click(object sender, EventArgs e)
         {
             NewGameForm form = new NewGameForm(this);
@@ -72,7 +130,18 @@ namespace TennisGameProject
 
         private void listView2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (this.rankingTable.SelectedItems.Count == 0) return;
 
+            ListViewItem selectedRow = this.rankingTable.SelectedItems[0];
+            string playerName = selectedRow.SubItems[0].Text;
+
+            PlayerInfoForm playerInfoForm = new PlayerInfoForm(
+                this,
+                playerName,
+                LoadPlayerData(playerName)
+            );
+
+            playerInfoForm.ShowDialog();
         }
     }
 }
