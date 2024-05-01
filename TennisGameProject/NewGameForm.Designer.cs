@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.newGameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -39,8 +40,12 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
+            this.firstPlayerNameErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.secondPlayerNameErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pointsFirstPlayerNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pointsSecondPlayerNumeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.firstPlayerNameErrorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.secondPlayerNameErrorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // newGameLabel
@@ -82,6 +87,8 @@
             this.firstPlayerNameTextBox.Name = "firstPlayerNameTextBox";
             this.firstPlayerNameTextBox.Size = new System.Drawing.Size(228, 29);
             this.firstPlayerNameTextBox.TabIndex = 3;
+            this.firstPlayerNameTextBox.TextChanged += new System.EventHandler(this.firstPlayerNameTextBox_TextChanged);
+            this.firstPlayerNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.ValidatePlayerName);
             // 
             // secondPlayerNameTextBox
             // 
@@ -91,6 +98,7 @@
             this.secondPlayerNameTextBox.Name = "secondPlayerNameTextBox";
             this.secondPlayerNameTextBox.Size = new System.Drawing.Size(228, 29);
             this.secondPlayerNameTextBox.TabIndex = 4;
+            this.secondPlayerNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.ValidatePlayerName);
             // 
             // label1
             // 
@@ -151,6 +159,14 @@
             this.saveButton.UseVisualStyleBackColor = false;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
+            // firstPlayerNameErrorProvider
+            // 
+            this.firstPlayerNameErrorProvider.ContainerControl = this;
+            // 
+            // secondPlayerNameErrorProvider
+            // 
+            this.secondPlayerNameErrorProvider.ContainerControl = this;
+            // 
             // NewGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -172,6 +188,8 @@
             this.Text = "NewGameForm";
             ((System.ComponentModel.ISupportInitialize)(this.pointsFirstPlayerNumeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pointsSecondPlayerNumeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.firstPlayerNameErrorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.secondPlayerNameErrorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -190,5 +208,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.ErrorProvider firstPlayerNameErrorProvider;
+        private System.Windows.Forms.ErrorProvider secondPlayerNameErrorProvider;
     }
 }
