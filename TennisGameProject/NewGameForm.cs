@@ -47,7 +47,21 @@ namespace TennisGameProject
             string firstPlayerName = firstPlayerNameTextBox.Text;
             string secondPlayerName = secondPlayerNameTextBox.Text;
 
-            if (IsValidName(firstPlayerName) != 0 || IsValidName(secondPlayerName) != 0) return;
+            int firstPlayerValidName = IsValidName(firstPlayerName);
+            int secondPlayerValidName = IsValidName(secondPlayerName);
+
+            if (firstPlayerValidName != 0 || secondPlayerValidName != 0)
+            {
+                this.firstPlayerNameErrorProvider.SetError(
+                    firstPlayerNameTextBox, ERROR_MESSAGES[firstPlayerValidName]
+                );
+
+                this.secondPlayerNameErrorProvider.SetError(
+                    secondPlayerNameTextBox, ERROR_MESSAGES[secondPlayerValidName]
+                );
+
+                return;
+            }
 
             int firstPlayerPoints = (int) pointsFirstPlayerNumeric.Value;
             int secondPlayerPoints = (int) pointsSecondPlayerNumeric.Value;

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -10,6 +12,10 @@ namespace TennisGameProject
     {
         public Dictionary<string, int> players = new Dictionary<string, int>();
         public Dictionary<(string, int), (string, int)> games = new Dictionary<(string, int), (string, int)>();
+
+        public Dictionary<(string, int), (string, int)> filteredGames = new Dictionary<(string, int), (string, int)>();
+
+        private bool filter;
 
         public ScoreForm()
         {
@@ -23,6 +29,8 @@ namespace TennisGameProject
 
         public void UpdateRecentGames()
         {
+            Dictionary<(string, int), (string, int)> games = filter ? this.filteredGames : this.games;
+
             latestGamesTable.Items.Clear();
 
             foreach (var game in games)
@@ -142,6 +150,38 @@ namespace TennisGameProject
             );
 
             playerInfoForm.ShowDialog();
+        }
+
+        private string formatData( KeyValuePair<(string, int),(string, int)> input )
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append(input.Key.Item1);
+            result.Append(" ");
+            result.Append(input.Value.Item1);
+
+            return result.ToString();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if(searchTextBox.Text.Trim().Length == 0)
+            {
+                filter = false;
+
+                UpdateRecentGames();
+
+                return;
+            }
+
+            filter = true;
+
+            Regex regex = new Regex(searchTextBox.Text);
+
+            filteredGames = games.Where(g => regex.Match(formatData(g)).Success)
+                                .ToDictionary(g => g.Key, g => g.Value);
+
+            UpdateRecentGames();
         }
     }
 }
